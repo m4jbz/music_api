@@ -9,7 +9,7 @@ const artistSchema = new mongoose.Schema({
 const albumSchema = new mongoose.Schema({
     title: {type: String, required: true},
     genres: {type: Array, required: true},
-    recorded_date: String,
+    year: String,
     performer: {type:String, required: true},
     label: String
 });
