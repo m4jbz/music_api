@@ -1,12 +1,13 @@
 const express = require("express");
 const MuController = require("../controllers/muController");
+const auth = require("../middleware/authMiddleware");
 
-const router = express.Router();
+const muRouter = express.Router();
 
-router.get("/artists/:id/albums", MuController.getAlbumByArtist);
-router.get("/artists", MuController.getAllArtists);
-router.get("/albums", MuController.getAllAlbums);
-router.get("/tracks", MuController.getAllTracks);
-router.get("/genres", MuController.getAllGenres);
+muRouter.get("/artists/:id/albums", auth, MuController.getAlbumByArtist);
+muRouter.get("/artists", auth, MuController.getAllArtists);
+muRouter.get("/albums", auth, MuController.getAllAlbums);
+muRouter.get("/tracks", auth, MuController.getAllTracks);
+muRouter.get("/genres", auth, MuController.getAllGenres);
 
-module.exports = router;
+module.exports = muRouter;
