@@ -1,4 +1,5 @@
 const AuthService = require("../services/authService");
+const { ValidationError, ConflictError } = require("../errors");
 
 class AuthController {
     static async register(req, res) {
@@ -7,7 +8,15 @@ class AuthController {
             await AuthService.register(username, password);
             res.status(201).json({ message: "User created"});
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            if (err instanceof ValidationError) {
+                return res.status(400).json({ message: err.message });
+            }
+
+            if (err instanceof ConflictError) {
+                return res.status(409).json({ message: err.message });
+            }
+
+            res.status(500).json({ message: "Internal server error" });
         }
 
     }
@@ -18,7 +27,15 @@ class AuthController {
             const tokens = await AuthService.login(username, password);
             res.status(200).json(tokens);
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            if (err instanceof ValidationError) {
+                return res.status(400).json({ message: err.message });
+            }
+
+            if (err instanceof ConflictError) {
+                return res.status(409).json({ message: err.message });
+            }
+
+            res.status(500).json({ message: "Internal server error" });
         }
     }
 
@@ -28,7 +45,15 @@ class AuthController {
             const accessToken = await AuthService.refresh(refresh_token);
             res.status(200).json({ accessToken });
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            if (err instanceof ValidationError) {
+                return res.status(400).json({ message: err.message });
+            }
+
+            if (err instanceof ConflictError) {
+                return res.status(409).json({ message: err.message });
+            }
+
+            res.status(500).json({ message: "Internal server error" });
         }
     }
 }

@@ -1,18 +1,22 @@
+const { ValidationError, ConflictError } = require("../errors");
 const bcrypt = require("bcrypt");
 const User = require("../models/userSchema"); const RefreshToken = require("../models/tokenSchema");
 const { signAccessToken, signRefreshToken } = require("../utils/jwt");
 
 async function register(username, password) {
-    try {
-        const hash = await bcrypt.hash(password, 10);
-        return User.create({ username, password: hash });
-    } catch (err) {
-        console.error(error.message)
-        return;
+    if (!username || !password) {
+        throw new ValidationError("username y password son requeridos");
     }
+
+    const hash = await bcrypt.hash(password, 10);
+    return User.create({ username, password: hash });
 }
 
 async function login(username, password) {
+    if (!username || !password) {
+        throw new ValidationError("username y password son requeridos");
+    }
+
     const user = await User.findOne({ username });
     if (!user) throw new Error("Invalid credentials");
 
