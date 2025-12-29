@@ -19,5 +19,3 @@ app.use(authRoutes);
 app.listen(PORT, () => {
     console.log(`Server running on port: ${PORT}`)
 });
-
-console.log("asd");
