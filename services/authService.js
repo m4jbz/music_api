@@ -1,6 +1,7 @@
 const { ValidationError, ConflictError } = require("../errors");
 const bcrypt = require("bcrypt");
-const User = require("../models/userSchema"); const RefreshToken = require("../models/tokenSchema");
+const User = require("../models/userSchema");
+const RefreshToken = require("../models/tokenSchema");
 const { signAccessToken, signRefreshToken } = require("../utils/jwt");
 
 async function register(username, password) {
@@ -46,3 +47,4 @@ async function refresh(refreshToken) {
 }
 
 module.exports = { register, login, refresh };
+
